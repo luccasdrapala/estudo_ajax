@@ -11,6 +11,10 @@
         <script>
             
             function requisitarPagina(url) {
+
+				let ajax = new XMLHttpRequest();
+
+				document.getElementById('conteudo').innerHTML = ''
                 
 				if(!document.getElementById('loading')) {
 
@@ -21,8 +25,6 @@
 
 					document.getElementById('conteudo').appendChild(imgLoading)
 				}
-
-				let ajax = new XMLHttpRequest();
 
 				//estados do request 
 				//state = 0 (não conectado com o servidor)
@@ -35,9 +37,14 @@
 				//metodo para ficar "ouvindo" as respostas do servidor
 				ajax.onreadystatechange = () => {
 
-					if(ajax.readyState == 4 ) {
-						console.log('requisição finalizada com sucesso')
-						document.getElementById('loading').remove()
+					if(ajax.readyState == 4 && ajax.status == 200) {
+
+							document.getElementById('conteudo').innerHTML = ajax.responseText
+						}
+
+					if(ajax.readyState == 4 && ajax.status == 404) {
+						
+						document.getElementById('conteudo').innerHTML = 'O recurso solicitatdo não foi encontrado. O status é: '  + ajax.status
 					}
 					//console.log(ajax.readyState)
 				}
@@ -67,7 +74,7 @@
 	    		<div class="col-md-4 center"></div>
 	    		<div class="col-md-4 center">
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_1_conteudo.php')">Página 1</a>
-	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_2_conteudo.html')">Página 2</a>
+	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_4_conteudo.html')">Página 2</a>
 	    			<a href="#" class="btn btn-primary" onclick="requisitarPagina('pagina_3_conteudo.html')">Página 3</a>
 	    		</div>
 	    		<div class="col-md-4 center"></div>
